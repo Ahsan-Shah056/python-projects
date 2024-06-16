@@ -24,7 +24,7 @@ symbols = {
            }
 def calculator():
     print (logo)
-    num1=int(input("Enter the first number: "))
+    num1=float(input("Enter the first number: "))
 
 
     for letter in symbols:
@@ -33,7 +33,7 @@ def calculator():
     should_continue = True
     
     while should_continue:
-        num2=int(input("Enter the next number: "))
+        num2=float(input("Enter the next number: "))
         operation = input("Enter an operator from the list above which you want to use: ") 
 
         calculation_function = symbols[operation]
