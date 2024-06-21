@@ -15,6 +15,7 @@ while not bidding:
       "Are there any other bidders? Type 'yes' or 'no'.\n").lower()
   if other_bidders == "yes":
     clear()
+    print(logo)
     name = input("What is your name?: ")
     bid = int(input("What's your bid?: $"))
   elif other_bidders == "no":
