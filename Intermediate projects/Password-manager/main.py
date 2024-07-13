@@ -1,6 +1,7 @@
 from tkinter import *
 from tkinter import messagebox
 from random import randint , choice , shuffle
+import pyperclip  
 
 # ---------------------------- SAVE Credentials ----------------------------
 def add_info():
@@ -54,7 +55,7 @@ def g_pass():
     password = "".join(password_list)
     
     pass_entry.insert(0 ,password)
-
+    pyperclip.copy(password)
 # ---------------------------- UI Configuration -------------------------------
 window = Tk()
 window.title("Passwrod Manager")
