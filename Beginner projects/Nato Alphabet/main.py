@@ -7,7 +7,16 @@ new_data = {row.letter:row.code for (index, row) in data.iterrows()}
 
 print(logo)
 
-user = input("Enter the word: ").upper()
+def take_input():
+    user = input("Enter the word: ").upper()
+    final = [new_data[letter] for letter in user]
+    print (final)
 
-final = [new_data[letter] for letter in user]
-print (final)
+correct = True
+while correct:
+    try:
+        take_input()
+    except KeyError:
+        print("Sorry, only letters are allowed here")   
+    else:
+        correct = False    
