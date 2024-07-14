@@ -2,18 +2,31 @@ from tkinter import *
 from tkinter import messagebox
 from random import randint , choice , shuffle
 import pyperclip  
+import json
 
 # ---------------------------- SAVE Credentials ----------------------------
 def add_info():
     """This funtion is used to store user's credential into a file"""
+    new_data ={web_entry.get().title():{
+        "Email" : email_entry.get() ,
+        "Password" : pass_entry.get()
+    }}
+    
     if len(web_entry.get()) == 0 or len(email_entry.get()) == 0 or len(pass_entry.get()) == 0:
         messagebox.showinfo(title="RED Alert!!!!!" , message=" Don't leave any fields empty")
     else:
-        is_ok = messagebox.askokcancel(title=web_entry.get() , message=f"The entered details are \n Email: {email_entry.get()} \n Password: {pass_entry.get()} \n Are these correct?")
-        
-        if is_ok:
-            with open("data.txt" , 'a') as file:
-                file.write(f"{web_entry.get()} | {email_entry.get()} | {pass_entry.get()} \n")
+        try:
+            with open("data.json" ,'r') as file:
+                data = json.load(file)
+               
+        except:
+            with open("data.json" , 'w') as file:
+                json.dump(new_data , file , indent=4)    
+        else:
+            data.update(new_data)
+            with open("data.json" , 'w') as file:
+                json.dump(data , file , indent=4)
+        finally:    
             web_entry.delete(0, END)    
             pass_entry.delete(0, END) 
             email_entry.delete(0, END) 
@@ -30,8 +43,7 @@ def g_pass():
     nr_symbols = randint(2, 6)
     nr_numbers = randint(2, 6)
 
-    password_list = []
-
+    password_list = [] 
  #---------------version 1 -------------------
     # for char in range(nr_letters):
     #     password_list.append(random.choice(letters))
@@ -41,8 +53,7 @@ def g_pass():
     
     # for char in range(nr_numbers):
     #     password_list += random.choice(numbers)
-    
-    
+     
 #---------------version 2 -------------------
     password_letter = [choice(letters) for i in range(nr_letters)]
     password_char = [choice(symbols) for i in range(nr_symbols)]
@@ -56,9 +67,31 @@ def g_pass():
     
     pass_entry.insert(0 ,password)
     pyperclip.copy(password)
+    
+
+#---------------Searching for data ------------------- 
+def search_info():
+    website =web_entry.get().title( )
+    try:
+        with open("data.json") as file:
+            data = json.load(file)
+            if website not in data:
+                raise KeyError         
+    except FileNotFoundError:
+        messagebox.showinfo(title="Error" , message= "File does not exist")
+    except KeyError:
+        messagebox.showinfo(title="Error" , message= f"Data for {website} does not exist")
+    else:
+        if website in data:
+            email= data[website]["Email"]
+            password= data[website]["Password"]
+            messagebox.showinfo(title=website , message=f"Email: {email}\n Password: {password}") 
+    
+    
+        
 # ---------------------------- UI Configuration -------------------------------
 window = Tk()
-window.title("Passwrod Manager")
+window.title("Password Manager")
 window.config(padx=40,pady=40)
 
 canvas =Canvas(width=200 , height=200  ,highlightthickness=0)
@@ -76,9 +109,9 @@ password_label=Label(text="Password: ",  font=("arial" , 14))
 password_label.grid(column=0 , row=3)
 
 # ---------------------------- entries ----------------------------
-web_entry = Entry( width = 35 )
-web_entry.grid(column=1, row=1 , columnspan=2)
-web_entry.focus( )
+web_entry = Entry( width = 21 )
+web_entry.grid(column=1, row=1 , columnspan=1)
+web_entry.focus()
 
 email_entry = Entry(width = 35)
 email_entry.grid(column=1 , row=2 , columnspan=2)
@@ -88,9 +121,11 @@ pass_entry.grid(column=1 , row=3 , columnspan=1)
 
     
 # ---------------------------- buttons  ----------------------------
+search_button = Button( text="Search",width=13, bg="black" , fg="black" ,command= search_info )
+search_button.grid(column=2, row=1 )
 gen_pass = Button( text="Generate password", bg="black" , fg="black" ,command= g_pass)
 gen_pass.grid(column=2 , row =3)
-save_info = Button(text="Add information", bg="black" , fg="black" , command = add_info) 
+save_info = Button(text="Add information",width=36, bg="black" , fg="black" , command = add_info) 
 save_info.grid(column=1 , row= 4, columnspan=2 )
 window.mainloop()
 
