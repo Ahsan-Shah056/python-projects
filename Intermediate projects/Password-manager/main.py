@@ -2,7 +2,7 @@ from tkinter import *
 from tkinter import messagebox
 from random import randint , choice , shuffle
 import pyperclip  
-import json
+import json # You can also use the txt file if you want to
 
 # ---------------------------- SAVE Credentials ----------------------------
 def add_info():
