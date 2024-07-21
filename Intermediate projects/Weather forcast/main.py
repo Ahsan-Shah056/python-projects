@@ -5,7 +5,7 @@ from twilio.rest import Client
 adr = "https://api.openweathermap.org/data/2.5/weather"
 
 #use your own api key from openweathermap.org
-api_key= "3ae40f5988f7aff3638fb2cf29aab6a5"
+api_key= "Your own api key"
 
 #in the below fields you need to enter your credentials
 account_sid = "__YOUR_TWILIO_ACCOUNT_ID__"
