@@ -55,6 +55,3 @@ Welcome to the Weather Forecast Notification App! This guide will help you under
 - Customize the frequency and conditions for sending notifications as per your requirements.
 
 Enjoy using the Weather Forecast Notification App to stay prepared for the weather!
-
-
-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
